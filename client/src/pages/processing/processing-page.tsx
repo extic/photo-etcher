@@ -17,13 +17,25 @@ function ProcessingPage(){
         formData.append('location', location);
         formData.append('date', date);
 
-        await fetch('api/photo/label', {
+        const response = await fetch('api/photo/label', {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${userStore.token}`
             },
             body: formData
         });
+
+        if (!response.ok) {
+            throw new Error('Failed to label the photo');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'labeled-image.png';
+        a.click();
+        window.URL.revokeObjectURL(url);
     }
 
     return <>

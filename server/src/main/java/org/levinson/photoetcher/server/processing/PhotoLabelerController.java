@@ -1,6 +1,7 @@
 package org.levinson.photoetcher.server.processing;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +20,23 @@ import java.io.File;
 public class PhotoLabelerController {
 
     @PostMapping("/label")
-    public String extractMetadata(@RequestParam("file") MultipartFile file, @RequestParam("location") String location, @RequestParam("date") String date) {
+    public ResponseEntity<byte[]> labelImage(@RequestParam("file") MultipartFile file, @RequestParam("location") String location, @RequestParam("date") String date) {
+        var labeledFile = createLabeledImage(file, location, date);
+
+        try {
+            byte[] fileContent = java.nio.file.Files.readAllBytes(labeledFile.toPath());
+            labeledFile.delete(); // Clean up the temporary file
+
+            return ResponseEntity.ok()
+                    .header("Content-Disposition", "attachment; filename=labeled-image.png")
+                    .header("Content-Type", "image/png")
+                    .body(fileContent);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to download labeled image: " + e.getMessage(), e);
+        }
+    }
+
+    private File createLabeledImage(MultipartFile file, String location, String date) {
         try (var inputStream = new ByteArrayInputStream(file.getBytes())) {
             BufferedImage image = ImageIO.read(inputStream);
             if (image == null) {
@@ -51,7 +68,7 @@ public class PhotoLabelerController {
             ImageIO.write(image, "png", tempFile);
 
             System.out.println(tempFile.getAbsolutePath());
-            return tempFile.getAbsolutePath();
+            return tempFile;
         } catch (Exception e) {
             throw new RuntimeException("Failed to patch image: " + e.getMessage(), e);
         }
