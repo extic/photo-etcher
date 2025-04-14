@@ -17,7 +17,7 @@ function MainLayout() {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Header style={{ padding: 0, background: '#fbf7f2', boxShadow: '0 5px 21px -5px #cdd1e1', zIndex: 1 }}>
+            <Header style={{ padding: 0, background: '#edebe8', boxShadow: '0 3px 21px -5px #cdd1e1', zIndex: 1 }}>
                 <MainHeader/>
             </Header>
             <Content style={{ margin: '0 16px' }}>
