@@ -1,0 +1,53 @@
+.header-user {
+  position: relative;
+
+  &:hover .dropdownContainer {
+    display: block;
+  }
+
+  .avatar-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid #333;
+  }
+
+  .dropdownContainer {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    box-shadow: 0 5px 21px -5px #cdd1e1;
+    display: none;
+
+    ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+
+        button {
+          padding: 0.5rem 2rem;
+          cursor: pointer;
+          color: #333;
+          margin: 0;
+          border: none;
+          background-color: transparent;
+
+          &:hover {
+            background-color: var(--HOVER_COLOR);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.main-header {
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  height: 64px;
+
+  .logo {
+    line-height: normal;
+
+    img {
+      width: 11rem;
+    }
+  }
+}
