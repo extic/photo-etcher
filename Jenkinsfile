@@ -12,7 +12,11 @@ pipeline {
   stages {
     stage('Build (maven)') {
       steps {
+        sh 'pwd'
+        sh 'ls -Fal'
         sh 'cd server'
+        sh 'pwd'
+        sh 'ls -Fal'
         sh 'mvn clean install'
 
         stash name: 'maven-build', includes: '**/*'
