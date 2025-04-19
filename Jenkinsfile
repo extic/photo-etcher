@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'web.local:5000/jdk23-agent'
+      image '127.0.0.1:5000/jdk23-agent'
     }
   }
 
