@@ -1,12 +1,16 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'web.local:5000/jdk23-agent'
+    }
+  }
 
   triggers {
     githubPush()
   }
 
   tools {
-      maven 'Maven 3.9.9'
+    maven 'Maven 3.9.9'
   }
 
   stages {
@@ -14,7 +18,7 @@ pipeline {
       steps {
         sh '''
             cd server
-            mvn clean install
+            mvn -B clean install
         '''
         stash name: 'maven-build', includes: '**/*'
       }
